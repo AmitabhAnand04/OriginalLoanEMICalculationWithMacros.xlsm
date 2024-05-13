@@ -1,4 +1,3 @@
-
 Option Explicit
 
 Private Sub cmdCalculate_Click()
@@ -21,7 +20,11 @@ Private Sub cmdCalculate_Click()
     Dim rs As ADODB.Recordset
     
     Set conn = New ADODB.Connection
-    conn.Open "driver={sql server};server=LINKOLFEB24-092;database=db;uid=admin;pwd=admin123;"
+    conn.Open "Provider=SQLOLEDB;" & _
+                    "Data Source=chatbotserver456.database.windows.net;" & _
+                    "Initial Catalog=pocdb;" & _
+                    "User Id=sqlserver;" & _
+                    "Password=chatbot@123;"
     Debug.Print "Connected successfully"
     
     Dim years As Long
@@ -30,18 +33,19 @@ Private Sub cmdCalculate_Click()
     
     tenure = tbxDuration
     
-    If tenure <= 1 Then
+    If tenure <= 2 Then
         years = 1
-    ElseIf tenure >= 2 And tenure <= 5 Then
+    ElseIf tenure > 2 And tenure <= 5 Then
         years = 5
-    ElseIf tenure >= 6 Then
+    ElseIf tenure > 5 Then
         years = 10
     End If
     
-    sql = "Select Rate from rates where Duration =" & years
+    sql = "Select rates from TblRates where Duration =" & years
+    Debug.Print
     Set rs = conn.Execute(sql)
-    Debug.Print rs.Fields("Rate").Value
-    rate = rs.Fields("Rate").Value / 100
+    Debug.Print rs.Fields("rates").Value
+    rate = rs.Fields("rates").Value / 100
     
     Set ws = ActiveSheet
     
@@ -202,4 +206,9 @@ Private Sub cmdCalculate_Click()
     Range("J11").Select
     
     Unload Me
+    
+    ' Insert a row above row 1
+    Rows("1:1").Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
+    
 End Sub
+
