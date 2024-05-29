@@ -22,7 +22,7 @@ Private Sub cmdCalculate_Click()
     Set conn = New ADODB.Connection
     conn.Open "Provider=SQLOLEDB;" & _
                     "Data Source=chatbotserver456.database.windows.net;" & _
-                    "Initial Catalog=pocdb;" & _
+                    "Initial Catalog=chatdb;" & _
                     "User Id=sqlserver;" & _
                     "Password=chatbot@123;"
     Debug.Print "Connected successfully"
@@ -41,11 +41,11 @@ Private Sub cmdCalculate_Click()
         years = 10
     End If
     
-    sql = "Select rates from TblRates where Duration =" & years
+    sql = "Select Rate from TblRates where Duration =" & years
     Debug.Print
     Set rs = conn.Execute(sql)
-    Debug.Print rs.Fields("rates").Value
-    rate = rs.Fields("rates").Value / 100
+    Debug.Print rs.Fields("Rate").Value
+    rate = rs.Fields("Rate").Value / 100
     
     Set ws = ActiveSheet
     
@@ -211,4 +211,6 @@ Private Sub cmdCalculate_Click()
     Rows("1:1").Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
     
 End Sub
+
+
 
